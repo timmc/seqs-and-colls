@@ -39,17 +39,22 @@
               [(name s)
                (map f data)])))))
 
-;; Take map of name-str to result-seq
-(h/deftemplate table "seqs/table.html"
+(h/defsnippet mk-table "seqs/html/table.html" [:table]
   [data-strs results]
-  [:thead :th.val] (h/clone-for [sn data-strs]
-                                (h/content sn))
+  [:thead :th.crt-b] (h/clone-for [sn data-strs]
+                                  (h/content sn))
   [:tbody :tr] (h/clone-for [fsym pred-syms]
-                            [:th.fn] (h/content (str fsym))
+                            [:th.crt-a] (h/content (str fsym))
                             [:td] (h/clone-for [a (get results (str fsym))]
                                                (h/content (str a)))))
 
+(h/deftemplate mk-page "seqs/html/main.html"
+  [table-sn]
+  [:#cartesian] (h/content table-sn))
+
 (defn -main
   [& args]
-  (let [results (run-all pred-syms data-snips)]
-    (println (apply str (table data-snips results)))))
+  (let [results (run-all pred-syms data-snips)
+        table-sn (mk-table data-snips results)
+        page (mk-page table-sn)]
+    (println (apply str page))))

@@ -1,0 +1,25 @@
+.crt {
+border: 1px solid black;
+border-collapse: collapse;
+}
+
+.crt th, .crt td {
+padding: 0.2em;
+border: 1px solid #999;
+}
+
+.crt-a, .crt-b {
+font-family: monospace;
+}
+
+.crt-b {
+text-align: left;
+border-bottom: 2px solid black;
+}
+
+.crt-a {
+text-align: right;
+border-right: 2px solid black;
+}
+
+
