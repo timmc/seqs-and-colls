@@ -13,26 +13,36 @@
    nil
    5])
 
-(def preds
-  [coll?
-   seq?
-   seq
-   empty?
-   sequential?
-   associative?])
+(def pred-syms
+  '[coll?
+    seq?
+    sequential?
+    associative?
+    seq
+    empty?])
 
-(defn resultifier
-  "Wraps the function to produce "
+(defn make-result
+  "Wraps the function to produce true, false, or :exception."
   [f]
   #(try
      (if (apply f %&) true false)
      (catch Exception e :exception)))
 
+;; Take map of name-str to result-seq
 (h/deftemplate table "seqs/table.html"
   [results]
-  [:thead :th.val] (h/clone-for [v data] (h/content (pr-str v))))
+  [:thead :th.val] (h/clone-for [v data]
+                                (h/content (pr-str v)))
+  [:tbody :tr] (h/clone-for [fsym pred-syms]
+                            [:th.fn] (h/content (str fsym))
+                            [:td] (h/clone-for [a (get results (str fsym))]
+                                               (h/content (str a)))))
 
 (defn -main
   [& args]
-  (let [results (map #(map (resultifier %) data) preds)]
+  (let [results (into {}
+                      (for [s pred-syms]
+                        (let [f (make-result (deref (resolve s)))]
+                          [(name s)
+                           (map f data)])))]
     (println (apply str (table results)))))
