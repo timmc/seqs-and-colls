@@ -22,12 +22,18 @@
 
 (defn run-all
   "Eval data strings and run them through the functions, producing a map of
-   function name strings to seqs of return values."
-  [fn-syms data-strs]
+   function name strings to seqs of return values. Elements of foss may be symbols
+   that resolve to functions or strings that eval to functions."
+  [fsos data-strs]
   (let [data (map (comp eval read-string) data-strs)]
     (into {}
-          (for [s fn-syms]
-            (let [f (make-result (deref (resolve s)))]
+          (for [s fsos]
+            (let [f (make-result (cond
+                                  (symbol? s)
+                                  (deref (resolve s))
+                                  
+                                  (instance? String s)
+                                  (eval (read-string s))))]
               [(name s)
                (map f data)])))))
 
@@ -38,22 +44,23 @@
       im-src {true "yes.png", false "no.png", :e "warning.png"}
       xf-img #(h/set-attr :alt (im-alt %) :title (im-title %) :src (im-src %))]
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
-    [fn-syms data-strs results]
+    [fsos data-strs results]
 
     [:thead :th.crt-b]
     (h/clone-for [sn data-strs]
                  [:code] (h/content sn))
     
     [:tbody :tr]
-    (h/clone-for [fsym fn-syms]
-                 [:th.crt-a :code] (h/content (name fsym))
-                 [:td] (h/clone-for [a (get results (name fsym))]
+    (h/clone-for [sos fsos]
+                 [:th.crt-a :code] (h/content (name sos))
+                 [:td] (h/clone-for [a (get results (name sos))]
                                     [:img] (xf-img a)))))
 
 (h/deftemplate mk-page "seqs/html/main.html"
-  [tbl-collseq tbl-colltypes]
+  [tbl-collseq tbl-colltypes tbl-eqpart]
   [:#tbl-collseq] (h/content tbl-collseq)
-  [:#tbl-colltypes] (h/content tbl-colltypes))
+  [:#tbl-colltypes] (h/content tbl-colltypes)
+  [:#tbl-eqpart] (h/content tbl-eqpart))
 
 (defn table-for
   [fns data]
@@ -67,5 +74,7 @@
                          [d-lazyseq d-list d-vec d-map d-set
                           d-string d-nil d-other])
               (table-for '[coll? sequential? associative?]
-                         [d-lazyseq d-list d-vec d-map d-set]))]
+                         [d-lazyseq d-list d-vec d-map d-set])
+              (table-for ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
+                         ["()" "[]" "{}" "#{}"]))]
     (println (apply str page))))

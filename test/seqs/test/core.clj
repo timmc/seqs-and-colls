@@ -8,6 +8,7 @@
   (is (= ((make-result seq) 5) :e)))
 
 (deftest runner
-  (is (= (run-all ['inc 'coll?] ["nil" "(+ 2 3)"])
+  (is (= (run-all ['inc 'coll? "#(* 2 %)"] ["nil" "(+ 2 3)"])
          {"inc" [:e true]
-          "coll?" [false false]})))
+          "coll?" [false false]
+          "#(* 2 %)" [:e true]})))
