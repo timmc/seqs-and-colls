@@ -39,14 +39,24 @@
               [(name s)
                (map f data)])))))
 
-(h/defsnippet mk-table "seqs/html/table.html" [:table]
-  [data-strs results]
-  [:thead :th.crt-b] (h/clone-for [sn data-strs]
-                                  (h/content sn))
-  [:tbody :tr] (h/clone-for [fsym pred-syms]
-                            [:th.crt-a] (h/content (str fsym))
-                            [:td] (h/clone-for [a (get results (str fsym))]
-                                               (h/content (str a)))))
+(let [im-alt {true "true", false "false", :e "exception"}
+      im-title {true "Logical true",
+                false "Logical false",
+                :e "Throws exception"}
+      im-src {true "yes.png", false "no.png", :e "warning.png"}
+      xf-img #(h/set-attr :alt (im-alt %) :title (im-title %) :src (im-src %))]
+  (h/defsnippet mk-table "seqs/html/table.html" [:table]
+    [data-strs results]
+
+    [:thead :th.crt-b]
+    (h/clone-for [sn data-strs]
+                 (h/content sn))
+    
+    [:tbody :tr]
+    (h/clone-for [fsym pred-syms]
+                 [:th.crt-a] (h/content (name fsym))
+                 [:td] (h/clone-for [a (get results (name fsym))]
+                                    [:img] (xf-img a)))))
 
 (h/deftemplate mk-page "seqs/html/main.html"
   [table-sn]
