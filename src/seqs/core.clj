@@ -1,25 +1,17 @@
 (ns seqs.core
   (:require [net.cgrand.enlive-html :as h]))
 
-(def data-snips
-  ["(range) ; lazy seq"
-   "'(4 5 6) ; list"
-   "() ; empty list"
-   "[1 2 3] ; vector"
-   "[] ; empty vec"
-   "{:a 1 :b 2} ; map"
-   "#{7 8 9} ; set"
-   "\"hello\" ; string"
-   "nil ; nil/null"
-   "17 ; other"])
-
-(def pred-syms
-  '[coll?
-    sequential?
-    associative?
-    seq?
-    seq
-    empty?])
+(def d-lazyseq "(range)")
+(def d-list "'(1 2 3)")
+(def d-list-empty "()")
+(def d-vec "[4 5 6]")
+(def d-vec-empty "[]")
+(def d-map "{:a 1, :b 2}")
+(def d-set "#{7 8 9}")
+(def d-string "\"hello\"")
+(def d-string-empty "\"\"")
+(def d-nil "nil")
+(def d-other "17")
 
 (defn make-result
   "Wraps the function to produce true, false, or :e."
@@ -46,25 +38,34 @@
       im-src {true "yes.png", false "no.png", :e "warning.png"}
       xf-img #(h/set-attr :alt (im-alt %) :title (im-title %) :src (im-src %))]
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
-    [data-strs results]
+    [fn-syms data-strs results]
 
     [:thead :th.crt-b]
     (h/clone-for [sn data-strs]
                  [:code] (h/content sn))
     
     [:tbody :tr]
-    (h/clone-for [fsym pred-syms]
+    (h/clone-for [fsym fn-syms]
                  [:th.crt-a :code] (h/content (name fsym))
                  [:td] (h/clone-for [a (get results (name fsym))]
                                     [:img] (xf-img a)))))
 
 (h/deftemplate mk-page "seqs/html/main.html"
-  [table-sn]
-  [:#cartesian] (h/content table-sn))
+  [tbl-collseq tbl-colltypes]
+  [:#tbl-collseq] (h/content tbl-collseq)
+  [:#tbl-colltypes] (h/content tbl-colltypes))
+
+(defn table-for
+  [fns data]
+  (let [results (run-all fns data)]
+    (mk-table fns data results)))
 
 (defn -main
   [& args]
-  (let [results (run-all pred-syms data-snips)
-        table-sn (mk-table data-snips results)
-        page (mk-page table-sn)]
+  (let [page (mk-page
+              (table-for '[coll? seq?]
+                         [d-lazyseq d-list d-vec d-map d-set
+                          d-string d-nil d-other])
+              (table-for '[sequential? associative?]
+                         [d-lazyseq d-list d-vec d-map d-set]))]
     (println (apply str page))))

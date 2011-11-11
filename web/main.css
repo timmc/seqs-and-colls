@@ -1,3 +1,8 @@
+html, body {
+color: black;
+background-color: white;
+}
+
 
 .ill {
 float: right;
@@ -48,7 +53,8 @@ border-right: 2px solid black;
 }
 
 .crt code {
-    white-space: nowrap;
+white-space: nowrap;
+margin: 0.2em;
 }
 
 
