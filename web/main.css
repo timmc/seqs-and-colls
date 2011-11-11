@@ -26,6 +26,11 @@ border: 1px solid black;
 border-collapse: collapse;
 }
 
+.crt caption {
+vertical-align: top;
+margin: 0.3em;
+}
+
 .crt th, .crt td {
 padding: 0.2em;
 border: 1px solid #999;
