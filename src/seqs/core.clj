@@ -66,6 +66,6 @@
               (table-for '[coll? seq?]
                          [d-lazyseq d-list d-vec d-map d-set
                           d-string d-nil d-other])
-              (table-for '[sequential? associative?]
+              (table-for '[coll? sequential? associative?]
                          [d-lazyseq d-list d-vec d-map d-set]))]
     (println (apply str page))))

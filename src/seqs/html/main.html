@@ -9,10 +9,15 @@
 
 <h1>Collections and Sequences in Clojure</h1>
 
+<h2>Introduction</h2>
 <p>
+The topic of collections and sequences in Clojure can be quite confusing
+for beginners.
+In this document I aim to explain how these two abstractions differ 
+and how they work together.
 </p>
 
-<div id="tbl-collseq"></div>
+<h2>Collections</h2>
 
 <figure class="ill">
   <img src="collection-properties-venn.png" width="310" height="300"
@@ -35,7 +40,36 @@ while a set is neither.
 
 <div id="tbl-colltypes"></div>
 
-(Generated from <a href="https://github.com/timmc/seqs-and-colls">this</a>.)
+<h2>Sequences</h2>
+
+<p>
+A <dfn>sequence</dfn> is a data structure
+that is expected to be accessed in a sequential manner.
+It may be infinitely long, and may require additional computation
+in order to read.
+</p>
+
+<h2>Relationship between the two</h2>
+
+<ul>
+  <li>All sequences are also collections.</li>
+  <li>You can derive a sequence backed by collection.</li>
+  <li>You can read any sequence into a new collection.</li>
+</ul>
+
+<p>Nota Bene: Sequences are implemented as lists.</p>
+
+<div id="tbl-collseq"></div>
+
+<h2>Equality</h2>
+
+<p>TODO: Equality partitions re: seqs and colls</p>
+
+<footer>
+<p>
+Generated from <a href="https://github.com/timmc/seqs-and-colls">this</a>.
+</p>
+</footer>
 
 </body>
 </html>
