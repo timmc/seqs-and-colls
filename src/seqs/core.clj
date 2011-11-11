@@ -2,22 +2,22 @@
   (:require [net.cgrand.enlive-html :as h]))
 
 (def data-snips
-  ["(seq [10 11 12])"
-   "[1 2 3]"
-   "'(4 5 6)"
-   "{:a 1 :b 2}"
-   "#{7 8 9}"
-   "\"hello\""
-   "[]"
-   "()"
-   "nil"
-   "5"])
+  ["(range) ; lazy seq"
+   "'(4 5 6) ; list"
+   "() ; empty list"
+   "[1 2 3] ; vector"
+   "[] ; empty vec"
+   "{:a 1 :b 2} ; map"
+   "#{7 8 9} ; set"
+   "\"hello\" ; string"
+   "nil ; nil/null"
+   "17 ; other"])
 
 (def pred-syms
   '[coll?
-    seq?
     sequential?
     associative?
+    seq?
     seq
     empty?])
 
