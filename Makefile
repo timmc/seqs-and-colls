@@ -7,7 +7,7 @@ web-prereq:
 	mkdir -p $(WEBBLD)/
 
 web-generated: web-prereq
-	lein run > $(WEBBLD)/seqs-and-colls.html
+	lein run > $(WEBBLD)/main.html
 
 web-static: web-prereq
 	rsync -a $(WEBSRC)/ $(WEBBLD)/
