@@ -1,3 +1,26 @@
+
+.ill {
+float: right;
+margin: .7em .2em .7em 1em;
+border: 1px solid #cca;
+padding: 0.5em;
+}
+
+.ill > img {
+display: block;
+}
+
+.ill .ill-cap {
+text-align: left;
+display: table-caption;
+width: 100%;
+margin-top: 0.7em;
+}
+
+#cartesian {
+clear: both;
+}
+
 .crt {
 border: 1px solid black;
 border-collapse: collapse;
@@ -8,12 +31,9 @@ padding: 0.2em;
 border: 1px solid #999;
 }
 
-.crt-a, .crt-b {
-font-family: monospace;
-}
-
 .crt-b {
 text-align: left;
+vertical-align: top;
 border-bottom: 2px solid black;
 }
 
