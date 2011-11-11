@@ -22,11 +22,11 @@
     empty?])
 
 (defn make-result
-  "Wraps the function to produce true, false, or :exception."
+  "Wraps the function to produce true, false, or :e."
   [f]
   #(try
      (if (apply f %&) true false)
-     (catch Exception e :exception)))
+     (catch Exception e :e)))
 
 (defn run-all
   "Eval data strings and run them through the functions, producing a map of
