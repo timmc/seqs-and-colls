@@ -50,11 +50,11 @@
 
     [:thead :th.crt-b]
     (h/clone-for [sn data-strs]
-                 (h/content sn))
+                 [:code] (h/content sn))
     
     [:tbody :tr]
     (h/clone-for [fsym pred-syms]
-                 [:th.crt-a] (h/content (name fsym))
+                 [:th.crt-a :code] (h/content (name fsym))
                  [:td] (h/clone-for [a (get results (name fsym))]
                                     [:img] (xf-img a)))))
 

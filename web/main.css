@@ -47,4 +47,8 @@ text-align: right;
 border-right: 2px solid black;
 }
 
+.crt code {
+    white-space: nowrap;
+}
+
 
