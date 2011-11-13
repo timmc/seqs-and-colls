@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="collection-properties-venn.svg"
+   inkscape:export-filename="/home/timmc/repos/seqs/web/collection-properties-venn.png"
+   inkscape:export-xdpi="35.547295"
+   inkscape:export-ydpi="35.547295">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,7 +29,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="214.79354"
-     inkscape:cy="533.33132"
+     inkscape:cy="419.04561"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -75,7 +78,7 @@
        xml:space="preserve"
        id="flowRoot3772"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       transform="translate(40,-45.714286)"><flowRegion
+       transform="translate(122.85715,122.85714)"><flowRegion
          id="flowRegion3774"><rect
            id="rect3776"
            width="160"
@@ -86,7 +89,7 @@
        xml:space="preserve"
        id="flowRoot3780"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       transform="translate(-10,-2.8571429)"><flowRegion
+       transform="translate(-11.428571,54.285715)"><flowRegion
          id="flowRegion3782"><rect
            id="rect3784"
            width="168.57143"
@@ -97,7 +100,7 @@
        xml:space="preserve"
        id="flowRoot3788"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       transform="translate(-55.714285,-41.428571)"><flowRegion
+       transform="translate(-131.42857,112.85715)"><flowRegion
          id="flowRegion3790"><rect
            id="rect3792"
            width="135.71428"
@@ -108,7 +111,7 @@
        xml:space="preserve"
        id="flowRoot3796"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       transform="translate(-54.285715,-41.428571)"><flowRegion
+       transform="translate(-8.5714291,-35.714285)"><flowRegion
          id="flowRegion3798"><rect
            id="rect3800"
            width="117.14286"
@@ -160,10 +163,10 @@
          y="372.94513"
          id="tspan3832">sequential</tspan></text>
     <rect
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:none;stroke:#000000;stroke-width:3.37845874;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3836"
        width="654.28571"
-       height="591.42853"
+       height="750.06171"
        x="18.571428"
        y="235.21933" />
     <text
@@ -177,5 +180,36 @@
          id="tspan3840"
          x="251.42856"
          y="222.36218">Collection</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="color:#000000;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3017"
+       sodipodi:cx="331.42856"
+       sodipodi:cy="707.36218"
+       sodipodi:rx="204.28572"
+       sodipodi:ry="195"
+       d="m 535.71428,707.36218 a 204.28572,195 0 1 1 -408.57144,0 204.28572,195 0 1 1 408.57144,0 z" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="108.57142"
+       y="485.21933"
+       id="text3019"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="108.57142"
+         y="485.21933"
+         id="tspan3023">seq</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="257.14285"
+       y="940.93359"
+       id="text3025"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3027"
+         x="257.14285"
+         y="940.93359">counted</tspan></text>
   </g>
 </svg>

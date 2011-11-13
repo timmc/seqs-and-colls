@@ -20,23 +20,33 @@ and how they work together.
 <h2>Collections</h2>
 
 <figure class="ill">
-  <img src="collection-properties-venn.png" width="310" height="300"
+  <img src="collection-properties-venn.png" width="260" height="314"
        alt="Venn diagram of collection types by properties">
   <figcaption class="ill-cap">Collections divided by properties</figcaption>
 </figure>
 
 <p>
-A <dfn>collection</dfn> may be identified by the predicate <code>coll?</code>.
-Collections may be <dfn>associative</dfn>, <dfn>sequential</dfn>,
-both, or neither.
-Associative colls support key-value lookups.
-Maps are the traditional associative data structure,
-but vectors can be treated as mappings of indices to values.
-Sequential colls retain a linear ordering under insertion and deletion.
-Lists and vectors have this property.
-Note that a vector is both sequential and associative
-while a set is neither.
-</p>
+A <dfn>collection</dfn> is a bag of values
+claiming the <code>clojure.lang.IPersistentCollection</code> interface.
+This may be discovered using the predicate <code>coll?</code>.
+Any given collection type may match one or more of the following predicates:</p>
+
+<dl>
+  <dt><code>counted?</code></dt>
+  <dd>These colls know their size and can calculate their <code>count</code>
+      in constant time, without actually traversing their data.</dd>
+
+  <dt><code>associative?</code></dt>
+  <dd>Associative colls support key-value lookups.
+      Maps are the traditional associative data structure,
+      but vectors can be treated as mappings of indices to values.</dd>
+  
+  <dt><code>sequential?</code></dt>
+  <dd>Sequential colls retain a linear ordering under insertion and deletion.
+      Lists and vectors have this property.
+      Note that a vector is both sequential and associative
+      while a set is neither.</dd>
+</dl>
 
 <div id="tbl-colltypes"></div>
 

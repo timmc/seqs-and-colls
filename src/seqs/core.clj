@@ -81,8 +81,8 @@
                           d-other])
               (table-for '[first next rest]
                          ["[1 2]" "[1]" "[]" "nil" "17"])
-              (table-for '[coll? sequential? associative?]
-                         [d-lazyseq d-list d-vec d-map d-set])
+              (table-for '[coll? counted? sequential? associative?]
+                         [d-lazyseq d-list d-vec d-map d-set d-string d-nil])
               (table-for ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
                          ["()" "[]" "{}" "#{}"]))]
     (println (apply str page))))
