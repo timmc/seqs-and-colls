@@ -57,9 +57,10 @@
                                     [:img] (xf-img a)))))
 
 (h/deftemplate mk-page "seqs/html/main.html"
-  [tbl-collseq tbl-seq tbl-colltypes tbl-eqpart]
+  [tbl-collseq tbl-seq tbl-seq-remain tbl-colltypes tbl-eqpart]
   [:#tbl-collseq] (h/content tbl-collseq)
   [:#tbl-seq] (h/content tbl-seq)
+  [:#tbl-seq-remain] (h/content tbl-seq-remain)
   [:#tbl-colltypes] (h/content tbl-colltypes)
   [:#tbl-eqpart] (h/content tbl-eqpart))
 
@@ -78,6 +79,8 @@
                          [d-lazyseq d-list d-vec d-map d-set d-string
                           d-list-empty d-vec-empty d-string-empty d-nil
                           d-other])
+              (table-for '[first next rest]
+                         ["[1 2]" "[1]" "[]" "nil" "17"])
               (table-for '[coll? sequential? associative?]
                          [d-lazyseq d-list d-vec d-map d-set])
               (table-for ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
