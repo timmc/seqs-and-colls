@@ -22,8 +22,8 @@
 
 (defn run-all
   "Eval data strings and run them through the functions, producing a map of
-   function name strings to seqs of return values. Elements of foss may be symbols
-   that resolve to functions or strings that eval to functions."
+   function name strings to seqs of return values. Elements of foss may be
+   symbols that resolve to functions or strings that eval to functions."
   [fsos data-strs]
   (let [data (map (comp eval read-string) data-strs)]
     (into {}
