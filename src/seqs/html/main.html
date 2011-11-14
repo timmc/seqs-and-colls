@@ -52,6 +52,8 @@ Any given collection type may match one or more of the following predicates:</p>
 
 <p>TODO: sorted-set, hash-set, sorted-map, hash-map</p>
 
+<p>TODO: Raid clojure.core repo for instances of IPersistentCollection, ISeq, etc.</p>
+
 <h2>Sequences</h2>
 
 <p>
@@ -71,11 +73,15 @@ in order to read.
 
 <ul>
   <li>All sequences are also collections.</li>
-  <li>You can derive a sequence backed by collection.</li>
+  <li>You can derive a sequence backed by any collection.
+      Some collections have more than one seq implementation. (rseq [])
+      </li>
   <li>You can read any sequence into a new collection.</li>
 </ul>
 
-<p>Nota Bene: Sequences are implemented as lists.</p>
+<p>Nota Bene: Sequences are not implemented as lists,
+they just act a lot like them and
+are may be backed by similar data structures.</p>
 
 <div id="tbl-collseq"></div>
 
