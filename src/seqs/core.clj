@@ -46,8 +46,7 @@ printability, and values are kept as strings for the same reason."
 
 ;;;; HTML generation
 
-(let [;; Transforms an img node using a result value
-      xf-img
+(let [xf-img ;; transforms an img node using a result value
       #(apply
         h/set-attr
         (condp = %
