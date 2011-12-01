@@ -23,11 +23,11 @@ printability, and values are kept as strings for the same reason."
 ;;;; Computing results
 
 (defn make-result
-  "Wraps the function to produce true, false, or :e."
+  "Wraps the function to produce true, false, or the exceptions."
   [f]
   #(try
      (if (apply f %&) true false)
-     (catch Exception e (.getMessage e))))
+     (catch Exception e e)))
 
 (defn run-all
   "Eval data strings and run them through the functions, producing a map of
@@ -46,18 +46,14 @@ printability, and values are kept as strings for the same reason."
 
 ;;;; HTML generation
 
-(let [;; These are maps from result values to image attributes
-      im-alt #(or ({true "true"
-                    false "false"} %)
-                  "exception")
-      im-title #(or ({true "Logical true"
-                      false "Logical false"} %)
-                    %)
-      im-src #(or ({true "yes.png"
-                    false "no.png"} %)
-                  "warning.png")
-      ;; Transforms an img node using a result value
-      xf-img #(h/set-attr :alt (im-alt %) :title (im-title %) :src (im-src %))]
+(let [;; Transforms an img node using a result value
+      xf-img #(apply
+               h/set-attr
+               (mapcat identity
+                       (condp = %
+                           true {:alt "true" :title "Logical true" :src "yes.png"}
+                           false {:alt "false" :title "Logical false" :src "no.png"}
+                           {:alt "exception" :title (.getMessage %) :src "warning.png"})))]
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
     [fsos data-strs results]
     
