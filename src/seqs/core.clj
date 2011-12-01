@@ -1,4 +1,11 @@
 (ns seqs.core
+  "Create a seqs vs. colls comparison page with generated data tables.
+
+Most of the page is static text, but there are some tables that show the
+results of calling various unary functions with various values.
+
+Functions are kept internally as symbols or strings so as to preserve
+printability, and values are kept as strings for the same reason."
   (:require [net.cgrand.enlive-html :as h]))
 
 (def d-lazyseq "(range)")
@@ -12,6 +19,8 @@
 (def d-string-empty "\"\"")
 (def d-nil "nil")
 (def d-other "17")
+
+;;;; Computing results
 
 (defn make-result
   "Wraps the function to produce true, false, or :e."
@@ -33,6 +42,9 @@
                                    (string? s) (eval (read-string s))))]
               [(name s)
                (map f data)])))))
+
+
+;;;; HTML generation
 
 (let [;; These are maps from result values to image attributes
       im-alt {true "true", false "false", :e "exception"}
@@ -65,11 +77,14 @@
   [:#tbl-eqpart] (h/content tbl-eqpart))
 
 (defn table-for
+  "Produce a node tree from a collection of function symbol-or-strings and a
+collection of values."
   [fns data]
   (let [results (run-all fns data)]
     (mk-table fns data results)))
 
 (defn -main
+  "Print HTML to stdout."
   [& args]
   (let [page (mk-page
               (table-for '[coll? seq?]
