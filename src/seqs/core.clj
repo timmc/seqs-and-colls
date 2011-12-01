@@ -37,15 +37,17 @@
               [(name s)
                (map f data)])))))
 
-(let [im-alt {true "true", false "false", :e "exception"}
+(let [;; These are maps from result values to image attributes
+      im-alt {true "true", false "false", :e "exception"}
       im-title {true "Logical true",
                 false "Logical false",
                 :e "Throws exception"}
       im-src {true "yes.png", false "no.png", :e "warning.png"}
+      ;; Transforms an img node using a result value
       xf-img #(h/set-attr :alt (im-alt %) :title (im-title %) :src (im-src %))]
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
     [fsos data-strs results]
-
+    
     [:thead :th.crt-b]
     (h/clone-for [sn data-strs]
                  [:code] (h/content sn))
