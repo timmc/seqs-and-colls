@@ -29,14 +29,14 @@ printability, and values are kept as strings for the same reason."
      (if (apply f %&) true false)
      (catch Exception e e)))
 
-(defn run-all
+(defn generate-cross-product
   "Eval data strings and run them through the functions, producing a map of
-   function name strings to seqs of return values. Elements of fsos may be
+   function name strings to seqs of return values. Elements of fns may be
    symbols that resolve to functions or strings that eval to functions."
-  [fsos data-strs]
+  [fns data-strs]
   (let [data (map (comp eval read-string) data-strs)]
     (into {}
-          (for [s fsos]
+          (for [s fns]
             (let [f (make-result (cond
                                    (symbol? s) (deref (resolve s))
                                    (string? s) (eval (read-string s))))]
@@ -54,16 +54,16 @@ printability, and values are kept as strings for the same reason."
             false [:alt "false" :title "Logical false" :src "no.png"]
             [:alt "exception" :title (.getMessage %) :src "warning.png"]))]
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
-    [fsos data-strs results]
+    [fns data-strs results]
     
     [:thead :th.crt-b]
-    (h/clone-for [sn data-strs]
-                 [:code] (h/content sn))
+    (h/clone-for [ds data-strs]
+                 [:code] (h/content ds))
     
     [:tbody :tr]
-    (h/clone-for [sos fsos]
-                 [:th.crt-a :code] (h/content (name sos))
-                 [:td] (h/clone-for [a (get results (name sos))]
+    (h/clone-for [f fns]
+                 [:th.crt-a :code] (h/content (name f))
+                 [:td] (h/clone-for [a (get results (name f))]
                                     [:img] (xf-img a)))))
 
 (h/deftemplate mk-page "seqs/html/main.html"
@@ -78,7 +78,7 @@ printability, and values are kept as strings for the same reason."
   "Produce a node tree from a collection of function symbol-or-strings and a
    collection of values."
   [{:keys [fns data]}]
-  (let [results (run-all fns data)]
+  (let [results (generate-cross-product fns data)]
     (mk-table fns data results)))
 
 (defn -main
