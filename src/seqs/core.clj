@@ -49,11 +49,10 @@ printability, and values are kept as strings for the same reason."
 (let [;; Transforms an img node using a result value
       xf-img #(apply
                h/set-attr
-               (mapcat identity
-                       (condp = %
-                           true {:alt "true" :title "Logical true" :src "yes.png"}
-                           false {:alt "false" :title "Logical false" :src "no.png"}
-                           {:alt "exception" :title (.getMessage %) :src "warning.png"})))]
+               (condp = %
+                   true [:alt "true" :title "Logical true" :src "yes.png"]
+                   false [:alt "false" :title "Logical false" :src "no.png"]
+                   [:alt "exception" :title (.getMessage %) :src "warning.png"]))]
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
     [fsos data-strs results]
     
