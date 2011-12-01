@@ -1,5 +1,11 @@
 (ns seqs.core
-  "Create a seqs vs. colls comparison page with generated data tables."
+  "Create a seqs vs. colls comparison page with generated data tables.
+
+Most of the page is static text, but there are some tables that show the
+results of calling various unary functions with various values.
+
+Functions are kept internally as symbols or strings so as to preserve
+printability, and values are kept as strings for the same reason."
   (:require [net.cgrand.enlive-html :as h]))
 
 (def d-lazyseq "(range)")
