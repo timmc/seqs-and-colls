@@ -29,11 +29,8 @@
     (into {}
           (for [s fsos]
             (let [f (make-result (cond
-                                  (symbol? s)
-                                  (deref (resolve s))
-                                  
-                                  (instance? String s)
-                                  (eval (read-string s))))]
+                                   (symbol? s) (deref (resolve s))
+                                   (string? s) (eval (read-string s))))]
               [(name s)
                (map f data)])))))
 
@@ -45,6 +42,7 @@
       im-src {true "yes.png", false "no.png", :e "warning.png"}
       ;; Transforms an img node using a result value
       xf-img #(h/set-attr :alt (im-alt %) :title (im-title %) :src (im-src %))]
+
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
     [fsos data-strs results]
     
