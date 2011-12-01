@@ -27,7 +27,7 @@ printability, and values are kept as strings for the same reason."
   [f]
   #(try
      (if (apply f %&) true false)
-     (catch Exception e :e)))
+     (catch Exception e (.getMessage e))))
 
 (defn run-all
   "Eval data strings and run them through the functions, producing a map of
@@ -47,14 +47,17 @@ printability, and values are kept as strings for the same reason."
 ;;;; HTML generation
 
 (let [;; These are maps from result values to image attributes
-      im-alt {true "true", false "false", :e "exception"}
-      im-title {true "Logical true",
-                false "Logical false",
-                :e "Throws exception"}
-      im-src {true "yes.png", false "no.png", :e "warning.png"}
+      im-alt #(or ({true "true"
+                    false "false"} %)
+                  "exception")
+      im-title #(or ({true "Logical true"
+                      false "Logical false"} %)
+                    %)
+      im-src #(or ({true "yes.png"
+                    false "no.png"} %)
+                  "warning.png")
       ;; Transforms an img node using a result value
       xf-img #(h/set-attr :alt (im-alt %) :title (im-title %) :src (im-src %))]
-
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
     [fsos data-strs results]
     
