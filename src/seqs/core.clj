@@ -23,7 +23,7 @@ printability, and values are kept as strings for the same reason."
 ;;;; Computing results
 
 (defn make-result
-  "Wraps the function to produce true, false, or the exceptions."
+  "Wraps the function to produce true, false, or the exception."
   [f]
   #(try
      (if (apply f %&) true false)
