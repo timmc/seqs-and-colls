@@ -76,26 +76,28 @@ printability, and values are kept as strings for the same reason."
 
 (defn table-for
   "Produce a node tree from a collection of function symbol-or-strings and a
-collection of values."
-  [fns data]
+   collection of values."
+  [{:keys [fns data]}]
   (let [results (run-all fns data)]
     (mk-table fns data results)))
 
 (defn -main
   "Print HTML to stdout."
   [& args]
-  (let [page (mk-page
-              (table-for '[coll? seq?]
-                         [d-lazyseq d-list d-vec d-map d-set
-                          d-string d-nil d-other])
-              (table-for '[seq empty?]
-                         [d-lazyseq d-list d-vec d-map d-set d-string
-                          d-list-empty d-vec-empty d-string-empty d-nil
-                          d-other])
-              (table-for '[first next rest]
-                         ["[1 2]" "[1]" "[]" "nil" "17"])
-              (table-for '[coll? counted? sequential? associative?]
-                         [d-lazyseq d-list d-vec d-map d-set d-string d-nil])
-              (table-for ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
-                         ["()" "[]" "{}" "#{}"]))]
+  (let [page
+        (mk-page
+          (table-for {:fns '[coll? seq?]
+                      :data [d-lazyseq d-list d-vec d-map d-set
+                             d-string d-nil d-other]})
+          (table-for {:fns '[seq empty?]
+                      :data [d-lazyseq d-list d-vec d-map d-set d-string
+                             d-list-empty d-vec-empty d-string-empty d-nil 
+                             d-other]})
+          (table-for {:fns '[first next rest]
+                      :data ["[1 2]" "[1]" "[]" "nil" "17"]})
+          (table-for {:fns '[coll? counted? sequential? associative?]
+                      :data [d-lazyseq d-list d-vec d-map d-set d-string 
+                             d-nil]})
+          (table-for {:fns ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
+                      :data ["()" "[]" "{}" "#{}"]}))]
     (println (apply str page))))
