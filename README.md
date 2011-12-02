@@ -8,5 +8,5 @@ View result at http://www.brainonfire.net/files/seqs-and-colls/main.html
 
 ## License
 
-Copyright (C) 2011 Tim McCormack
+Copyright (C) 2011 Tim McCormack, Rob Levy, Alex Baranosky
 
