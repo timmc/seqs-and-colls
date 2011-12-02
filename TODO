@@ -6,4 +6,4 @@
   - Thumbs up/down?
 * Link functions in text, table to ClojureDocs
 * Show actual error/value for each result (title text?)
-* Condense knowledge of table values and IDs into a central var
+

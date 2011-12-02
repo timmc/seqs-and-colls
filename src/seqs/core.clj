@@ -66,38 +66,53 @@ printability, and values are kept as strings for the same reason."
                  [:td] (h/clone-for [a (get results (name f))]
                                     [:img] (xf-img a)))))
 
-(h/deftemplate mk-page "seqs/html/main.html"
-  [tbl-collseq tbl-seq tbl-seq-remain tbl-colltypes tbl-eqpart]
-  [:#tbl-collseq] (h/content tbl-collseq)
-  [:#tbl-seq] (h/content tbl-seq)
-  [:#tbl-seq-remain] (h/content tbl-seq-remain)
-  [:#tbl-colltypes] (h/content tbl-colltypes)
-  [:#tbl-eqpart] (h/content tbl-eqpart))
-
 (defn table-for
   "Produce a node tree from a collection of function symbol-or-strings and a
    collection of values."
-  [{:keys [fns data]}]
-  (let [results (generate-cross-product fns data)]
-    (mk-table fns data results)))
+  [fns args]
+  (let [results (generate-cross-product fns args)]
+    (mk-table fns args results)))
+
+(defn inject-table
+  "Given a node tree and an evaluation set, inject the eval results into a table
+in the layout."
+  [nt eset]
+  (let [tbl (table-for (:fns eset) (:args eset))
+        sel [(keyword (str \# (:id eset)))]]
+    (h/at nt sel (h/content tbl))))
+
+(defn make-page
+  "Generate a page (seq of strings) given a set of evaluations to perform."
+  [eval-sets]
+  (let [pg (h/html-resource "seqs/html/main.html")
+        pg (reduce inject-table pg eval-sets)]
+    (h/emit* pg)))
+
+(def cartesians
+  "A set of maps, each with an :id, a collection :fns, and a collection :args.
+These are suitable for passing to table-for."
+  #{{:id "tbl-collseq"
+     :fns '[coll? seq?]
+     :args [d-lazyseq d-list d-vec d-map d-set
+            d-string d-nil d-other]}
+    {:id "tbl-seq"
+     :fns '[seq empty?]
+     :args [d-lazyseq d-list d-vec d-map d-set d-string
+            d-list-empty d-vec-empty d-string-empty d-nil
+            d-other]}
+    {:id "tbl-seq-remain"
+     :fns '[first next rest]
+     :args ["[1 2]" "[1]" "[]" "nil" "17"]}
+    {:id "tbl-colltypes"
+     :fns '[coll? counted? sequential? associative?]
+     :args [d-list d-vec d-map d-set d-string
+            d-nil d-lazyseq "(seq \"hello\")"]}
+    {:id "tbl-eqpart"
+     :fns ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
+     :args ["()" "[]" "{}" "#{}"]}})
 
 (defn -main
   "Print HTML to stdout."
   [& args]
-  (let [page
-        (mk-page
-          (table-for {:fns '[coll? seq?]
-                      :data [d-lazyseq d-list d-vec d-map d-set
-                             d-string d-nil d-other]})
-          (table-for {:fns '[seq empty?]
-                      :data [d-lazyseq d-list d-vec d-map d-set d-string
-                             d-list-empty d-vec-empty d-string-empty d-nil 
-                             d-other]})
-          (table-for {:fns '[first next rest]
-                      :data ["[1 2]" "[1]" "[]" "nil" "17"]})
-          (table-for {:fns '[coll? counted? sequential? associative?]
-                      :data [d-list d-vec d-map d-set d-string
-                             d-nil d-lazyseq "(seq \"hello\")"]})
-          (table-for {:fns ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
-                      :data ["()" "[]" "{}" "#{}"]}))]
+  (let [page (make-page cartesians)]
     (println (apply str page))))
