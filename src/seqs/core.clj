@@ -96,8 +96,8 @@ printability, and values are kept as strings for the same reason."
           (table-for {:fns '[first next rest]
                       :data ["[1 2]" "[1]" "[]" "nil" "17"]})
           (table-for {:fns '[coll? counted? sequential? associative?]
-                      :data [d-lazyseq d-list d-vec d-map d-set d-string 
-                             d-nil]})
+                      :data [d-list d-vec d-map d-set d-string
+                             d-nil d-lazyseq "(seq \"hello\")"]})
           (table-for {:fns ["#(= () %)" "#(= [] %)" "#(= {} %)" "#(= #{} %)"]
                       :data ["()" "[]" "{}" "#{}"]}))]
     (println (apply str page))))
