@@ -5,9 +5,13 @@ Most of the page is static text, but there are some tables that show the
 results of calling various unary functions with various values.
 
 Functions are kept internally as symbols or strings so as to preserve
-printability, and values are kept as strings for the same reason."
+printability, and values are kept as strings for the same reason.
+
+A result is a map of :t in #{true, false, :e} and :v which is a value, possibly
+an exception."
   (:require [net.cgrand.enlive-html :as h]))
 
+;; Some oft-used args
 (def d-lazyseq "(range)")
 (def d-list "'(1 2 3)")
 (def d-list-empty "()")
@@ -22,14 +26,15 @@ printability, and values are kept as strings for the same reason."
 
 ;;;; Computing results
 
-(defn make-result
-  "Wraps the function to produce true, false, or the exception."
+(defn resultify
+  "Wrap f to produce a Result from calls to f."
   [f]
   #(try
-     (if (apply f %&) true false)
-     (catch Exception e e)))
+     (let [v (apply f %&)]
+       {:t (boolean v), :v v})
+     (catch Exception e {:t :e, :v e})))
 
-(defn generate-cross-product
+(defn cross-eval
   "Eval data strings and run them through the functions, producing a map of
    function name strings to seqs of return values. Elements of fns may be
    symbols that resolve to functions or strings that eval to functions."
@@ -37,22 +42,48 @@ printability, and values are kept as strings for the same reason."
   (let [data (map (comp eval read-string) data-strs)]
     (into {}
           (for [s fns]
-            (let [f (make-result (cond
-                                   (symbol? s) (deref (resolve s))
-                                   (string? s) (eval (read-string s))))]
+            (let [f (resultify (cond
+                                (symbol? s) (deref (resolve s))
+                                (string? s) (eval (read-string s))))]
               [(name s)
                (map f data)])))))
 
+(defn pr-short-str
+  "Return a truncated pr-str of the val. Safe for large data structures."
+  [x]
+  (binding [*print-level* 3
+            *print-length* 20]
+    (let [s (try (pr-str x)
+                 (catch Exception e (str "!!! " (.getMessage e))))]
+      (if (< 60 (count s))
+        (str (.substring ^String s 0 60) "...")
+        s))))
+
+(defmulti result-desc
+  "Produce a result's description."
+  :t)
+
+(defmethod result-desc true
+  [{v :v}]
+  (str "Logical true: " (pr-short-str v)))
+
+(defmethod result-desc false
+  [{v :v}]
+  (str "Logical false: " (pr-short-str v)))
+
+(defmethod result-desc :e
+  [{v :v}]
+  (str "Exception: " (.getMessage ^Exception v)))
 
 ;;;; HTML generation
 
 (let [xf-img ;; transforms an img node using a result value
       #(apply
         h/set-attr
-        (condp = %
-            true [:alt "true" :title "Logical true" :src "yes.png"]
-            false [:alt "false" :title "Logical false" :src "no.png"]
-            [:alt "exception" :title (.getMessage %) :src "warning.png"]))]
+        (condp = (:t %)
+            true [:alt "true" :title (result-desc %) :src "yes.png"]
+            false [:alt "false" :title (result-desc %) :src "no.png"]
+            :e [:alt "exception" :title (result-desc %) :src "warning.png"]))]
   (h/defsnippet mk-table "seqs/html/table.html" [:table]
     [fns data-strs results]
     
@@ -70,7 +101,7 @@ printability, and values are kept as strings for the same reason."
   "Produce a node tree from a collection of function symbol-or-strings and a
    collection of values."
   [fns args]
-  (let [results (generate-cross-product fns args)]
+  (let [results (cross-eval fns args)]
     (mk-table fns args results)))
 
 (defn inject-table
