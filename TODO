@@ -5,5 +5,4 @@
   - Bomb icon for exceptions
   - Thumbs up/down?
 * Link functions in text, table to ClojureDocs
-* Show actual error/value for each result (title text?)
 
