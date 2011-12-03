@@ -11,18 +11,6 @@ A result is a map of :t in #{true, false, :e} and :v which is a value, possibly
 an exception."
   (:require [net.cgrand.enlive-html :as h]))
 
-;; Some oft-used args
-(def d-lazyseq "(range)")
-(def d-list "'(1 2 3)")
-(def d-list-empty "()")
-(def d-vec "[4 5 6]")
-(def d-vec-empty "[]")
-(def d-map "{:a 1, :b 2}")
-(def d-set "#{7 8 9}")
-(def d-string "\"hello\"")
-(def d-string-empty "\"\"")
-(def d-nil "nil")
-(def d-other "17")
 
 ;;;; Computing results
 
@@ -118,6 +106,19 @@ in the layout."
   (let [pg (h/html-resource "seqs/html/main.html")
         pg (reduce inject-table pg eval-sets)]
     (h/emit* pg)))
+
+;; Some oft-used args
+(def d-lazyseq "(range)")
+(def d-list "'(1 2 3)")
+(def d-list-empty "()")
+(def d-vec "[4 5 6]")
+(def d-vec-empty "[]")
+(def d-map "{:a 1, :b 2}")
+(def d-set "#{7 8 9}")
+(def d-string "\"hello\"")
+(def d-string-empty "\"\"")
+(def d-nil "nil")
+(def d-other "17")
 
 (def cartesians
   "A set of maps, each with an :id, a collection :fns, and a collection :args.
