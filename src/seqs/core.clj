@@ -11,6 +11,19 @@ A result is a map of :t in #{true, false, :e} and :v which is a value, possibly
 an exception."
   (:require [net.cgrand.enlive-html :as h]))
 
+;;;; Utilities
+
+(defn mapply
+  "A version of apply that takes a map as the last argument, using the keys and
+values in interleaved order, (mapply + 1 2 3 {4 5}) -> (+ 1 2 3 4 5).
+Behavior when given a vector is undefined."
+  [f & args]
+  (when (empty? args)
+    (throw (IllegalArgumentException.
+            "Must pass at least one argument map to mapply.")))
+  (let [intervening (butlast args)
+        tail (for [me (last args), korv me] korv)]
+    (apply f (concat intervening tail))))
 
 ;;;; Computing results
 
@@ -47,43 +60,38 @@ an exception."
         (str (.substring ^String s 0 60) "...")
         s))))
 
-(defmulti result-desc
-  "Produce a result's description."
+(defmulti result-attrs
+  "Produce a result image's attributes."
   :t)
 
-(defmethod result-desc true
+(defmethod result-attrs true
   [{v :v}]
-  (str "Logical true: " (pr-short-str v)))
+  {:alt "true" :title (str "Logical true: " (pr-short-str v)) :src "yes.png"})
 
-(defmethod result-desc false
+(defmethod result-attrs false
   [{v :v}]
-  (str "Logical false: " (pr-short-str v)))
+  {:alt "false" :title (str "Logical false: " (pr-short-str v)) :src "no.png"})
 
-(defmethod result-desc :e
+(defmethod result-attrs :e
   [{v :v}]
-  (str "Exception: " (.getMessage ^Exception v)))
+  {:alt "exception"
+   :title (str "Exception: " (.getMessage ^Exception v))
+   :src "warning.png"})
 
 ;;;; HTML generation
 
-(let [xf-img ;; transforms an img node using a result value
-      #(apply
-        h/set-attr
-        (condp = (:t %)
-            true [:alt "true" :title (result-desc %) :src "yes.png"]
-            false [:alt "false" :title (result-desc %) :src "no.png"]
-            :e [:alt "exception" :title (result-desc %) :src "warning.png"]))]
-  (h/defsnippet mk-table "seqs/html/table.html" [:table]
-    [fns data-strs results]
-    
-    [:thead :th.crt-b]
-    (h/clone-for [ds data-strs]
-                 [:code] (h/content ds))
-    
-    [:tbody :tr]
-    (h/clone-for [f fns]
-                 [:th.crt-a :code] (h/content (name f))
-                 [:td] (h/clone-for [a (get results (name f))]
-                                    [:img] (xf-img a)))))
+(h/defsnippet mk-table "seqs/html/table.html" [:table]
+  [fns data-strs results]
+  
+  [:thead :th.crt-b]
+  (h/clone-for [ds data-strs]
+               [:code] (h/content ds))
+  
+  [:tbody :tr]
+  (h/clone-for [f fns]
+               [:th.crt-a :code] (h/content (name f))
+               [:td] (h/clone-for [a (get results (name f))]
+                                  [:img] (mapply h/set-attr (result-attrs a)))))
 
 (defn table-for
   "Produce a node tree from a collection of function symbol-or-strings and a

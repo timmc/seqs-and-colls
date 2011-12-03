@@ -2,6 +2,10 @@
   (:use [seqs.core])
   (:use [clojure.test]))
 
+(deftest utils
+  (is (= (mapply + {}) 0))
+  (is (= (mapply + 1 {2 3, 4 5}) 15)))
+
 (deftest normalizer
   (is (= ((resultify coll?) [1 2])
          {:t true :v true}))
