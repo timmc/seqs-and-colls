@@ -14,3 +14,5 @@ View latest result at http://www.brainonfire.net/files/seqs-and-colls/main.html
 
 Copyright (C) 2011 Tim McCormack, Rob Levy, Alex Baranosky
 
+Source code, text, images, and generated web content are all distributed
+under the Eclipse Public License v1.0 (see epl-v1.0.txt), the same as Clojure.

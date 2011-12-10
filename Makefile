@@ -11,6 +11,7 @@ web-generated: web-prereq
 
 web-static: web-prereq
 	rsync -a $(WEBSRC)/ $(WEBBLD)/
+	cp epl-v1.0.txt $(WEBBLD)/
 
 web: web-generated web-static
 
