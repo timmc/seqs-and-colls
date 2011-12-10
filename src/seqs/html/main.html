@@ -11,10 +11,11 @@
 
 <h2>Introduction</h2>
 <p>
-The topic of collections and sequences in Clojure can be quite confusing
-for beginners.
-In this document I aim to explain how these two abstractions differ 
-and how they work together.
+Newcomers to Clojure are often confused by the
+<a href="http://clojure.org/data_structures#Data%20Structures-Collections">collection</a> and <a href="http://clojure.org/sequences">sequence</a> abstractions
+and how they relate to one another.
+This document aims to provide an overview of these concepts
+and how they may be used in one's code.
 </p>
 
 <h2>Collections</h2>
@@ -22,37 +23,54 @@ and how they work together.
 <figure class="ill">
   <img src="collection-properties-venn.png" width="260" height="314"
        alt="Venn diagram of collection types by properties">
-  <figcaption class="ill-cap">Collections divided by properties</figcaption>
+  <figcaption class="ill-cap">Some collection types divided by their properties in a Venn diagram</figcaption>
 </figure>
 
 <p>
-A <dfn>collection</dfn> is a bag of values
-claiming the <code class="class-c.l">clojure.lang.IPersistentCollection</code> interface.
-This may be discovered using the predicate <code class="fn-core">coll?</code>.
-Any given collection type may match one or more of the following predicates:</p>
+Clojure's Collection API provides a generic mechanism for creating and handling
+compound data.
+Technically, a Clojure <dfn>collection</dfn> is an object claiming the
+<code class="class-c.l">clojure.lang.IPersistentCollection</code> interface.
+This may be discovered using the predicate <code class="fn-c.core">coll?</code>.
+The associated conceptual abstraction is that of a bag o' values,
+supporting certain operations:
+Adding, removing, counting, finding, and iterating over the values.
+Commonly seen examples are lists, maps, vectors, sets, and seqs,
+but these are not the only collection types that Clojure provides.
+</p>
+
+<p>
+Different collection types have different APIs, performance characteristics,
+and intended patterns of usage.
+Any given collection may match one or more of the following predicates,
+which group collection types by their broad characteristics:</p>
 
 <dl>
   <dt><code class="fn-core">counted?</code></dt>
   <dd>These colls know their size and can calculate their <code>count</code>
-      in constant time, without actually traversing their data.</dd>
+    in constant time, without actually traversing their data.
+    This is not just a performance characteristic —
+    some collections are infinite or may not be able to predict their size
+    without running arbitrary code.</dd>
 
   <dt><code class="fn-core">associative?</code></dt>
   <dd>Associative colls support key-value lookups.
-      Maps are the traditional associative data structure,
-      but vectors can be treated as mappings of indices to values.</dd>
+    Maps are the traditional associative data structure,
+    but vectors can be treated as mappings of indices to values.</dd>
   
   <dt><code class="fn-core">sequential?</code></dt>
   <dd>Sequential colls retain a linear ordering under insertion and deletion.
-      Lists and vectors have this property.
-      Note that a vector is both sequential and associative
-      while a set is neither.</dd>
+    Lists, seqs, and vectors have this property.
+    Note that a vector is both sequential and associative,
+    while a set is neither.</dd>
 </dl>
 
-<p>There are several types of collection</p>
+<p>Here we see which collections support which predicates,
+as well as how some non-collections are treated:</p>
 
 <div id="tbl-colltypes"></div>
 
-<p>TODO: sorted-set, hash-set, sorted-map, hash-map, array-map</p>
+<p>Note that the string is not a collection, but may be converted into one.</p>
 
 <p>TODO: Raid clojure.core repo for instances of IPersistentCollection, ISeq, etc.</p>
 
@@ -102,6 +120,8 @@ are may be backed by similar data structures.</p>
 <h2>Further reading</h2>
 
 <ul>
+  <li>Different implementations of colls:
+      sorted-set, hash-set, sorted-map, hash-map, array-map</li>
   <li>Polymorphism under the collection and sequence APIs
       (e.g. invisible shifts in implementation as you hammer on a coll.)</li>
   <li>Performance characteristics.</li>
