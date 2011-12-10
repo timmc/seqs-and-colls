@@ -26,3 +26,10 @@
            {"inc" [{:t :e, :v :exc} {:t true, :v 6}]
             "coll?" [{:t false, :v false} {:t false, :v false}]
             "#(* 2 %)" [{:t :e, :v :exc} {:t true, :v 10}]}))))
+
+(deftest doclinks
+  (are [i o] (= (cd-munge i) o)
+       'coll? "coll_q"
+       '. "_dot"
+       './? "_dot__q"))
+

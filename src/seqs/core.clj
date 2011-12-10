@@ -80,6 +80,30 @@ Behavior when given a vector is undefined."
 
 ;;;; HTML generation
 
+(defn cd-munge
+  "Munge a symbol for ClojureDocs URLs. 'coll? becomes \"coll_q\", etc."
+  [s]
+  (-> s str
+      (.replaceAll "\\." "_dot")
+      (.replaceAll "\\?" "_q")
+      (.replaceAll "/" "_")))
+
+(defn doc-url
+  "Given a symbol, produce the 1.3.0 documentation URL."
+  [s]
+  (let [ns (or (.getNamespace s) "clojure.core")
+        n (name s)]
+    (str "http://clojuredocs.org/clojure_core/1.3.0/" ns "/" (cd-munge n))))
+
+(defn fn-label
+  "Given a fn as symbol or string, produce node tree that might be a link."
+  [f]
+  (if (symbol? f)
+    {:tag :a
+     :attrs {:href (doc-url f), :title "View on ClojureDocs"}
+     :content (name f)}
+    (name f)))
+
 (h/defsnippet mk-table "seqs/html/table.html" [:table]
   [fns data-strs results]
   
@@ -89,7 +113,7 @@ Behavior when given a vector is undefined."
   
   [:tbody :tr]
   (h/clone-for [f fns]
-               [:th.crt-a :code] (h/content (name f))
+               [:th.crt-a :code] (h/content (fn-label f))
                [:td] (h/clone-for [a (get results (name f))]
                                   [:img] (mapply h/set-attr (result-attrs a)))))
 
