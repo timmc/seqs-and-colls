@@ -8,6 +8,8 @@ web-prereq:
 
 web-generated: web-prereq
 	lein run > $(WEBBLD)/main.html
+	#FIXME: Workaround Enlive emitting xml-style self-closing tags
+	sed -i 's|/>|>|' $(WEBBLD)/main.html
 
 web-static: web-prereq
 	rsync -a $(WEBSRC)/ $(WEBBLD)/
