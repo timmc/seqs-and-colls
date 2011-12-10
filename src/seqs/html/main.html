@@ -9,7 +9,7 @@
 
 <h1>Collections and Sequences in Clojure</h1>
 
-<h2>Introduction</h2>
+<h2>Purpose</h2>
 <p>
 Newcomers to Clojure are often confused by the
 <a href="http://clojure.org/data_structures#Data%20Structures-Collections">collection</a> and <a href="http://clojure.org/sequences">sequence</a> abstractions
@@ -17,6 +17,20 @@ and how they relate to one another.
 This document aims to provide an overview of these concepts
 and how they may be used in one's code.
 </p>
+
+<h2>TL;DR</h2>
+
+<ol>
+  <li>"Collection" and "sequence" are abstractions,
+    not a property that can be determined from a given value.</li>
+  <li>Collections are bags of values.</li>
+  <li>Sequences are a type of collection, supporting linear access only.</li>
+  <li>A seq can be derived from any collection (and some non-collections.)</li>
+  <li>Many linear-access functions derive a seq from their argument
+    using <code class="fn.core">seq</code>.</li>
+  <li>The main use of <code class="fn.core">seq</code> in user code
+    is to check if a collection or collection-like will yield elements.</li>
+</ol>
 
 <h2>Collections</h2>
 

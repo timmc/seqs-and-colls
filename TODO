@@ -4,5 +4,7 @@
   - Get away from good/bad iconography? Maybe 0 and 1 (on/off symbols)
   - Bomb icon for exceptions
   - Thumbs up/down?
+* Legend explaining icons
+* Support for REPL-like demo of code
 * Link functions in text, table to ClojureDocs
 
