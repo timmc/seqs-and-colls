@@ -16,3 +16,7 @@ Copyright (C) 2011 Tim McCormack, Rob Levy, Alex Baranosky
 
 Source code, text, images, and generated web content are all distributed
 under the Eclipse Public License v1.0 (see epl-v1.0.txt), the same as Clojure.
+
+Dual-licensing:
+
+* Tim McCormack releases all of his contributions on this repo under CC BY 3.0
