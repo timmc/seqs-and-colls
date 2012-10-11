@@ -20,3 +20,4 @@ under the Eclipse Public License v1.0 (see epl-v1.0.txt), the same as Clojure.
 Dual-licensing:
 
 * Tim McCormack releases all of his contributions on this repo under CC BY 3.0
+* Robert Levy releases all of his contributions on this repo under CC BY 3.0
