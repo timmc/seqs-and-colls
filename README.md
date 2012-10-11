@@ -14,10 +14,8 @@ View latest result at http://www.brainonfire.net/files/seqs-and-colls/main.html
 
 Copyright (C) 2011 Tim McCormack, Rob Levy, Alex Baranosky
 
-Source code, text, images, and generated web content are all distributed
-under the Eclipse Public License v1.0 (see epl-v1.0.txt), the same as Clojure.
+Source code, text, images, and generated web content are dual-licensed:
 
-Dual-licensing:
-
-* Tim McCormack releases all of his contributions on this repo under CC BY 3.0
-* Robert Levy releases all of his contributions on this repo under CC BY 3.0
+* Eclipse Public License v1.0 (see epl-v1.0.txt), the same as Clojure.
+* [Creative Commons Attribution 3.0 Unported](https://creativecommons.org/licenses/by/3.0/),
+  providing compatibility with the clojure-doc project.
